@@ -5,4 +5,5 @@
 #		@see https://docs.docker.com/docker-hub/builds/advanced/#custom-build-phase-hooks
 #
 
+apt-get update
 apt-get install -y --fix-missing qemu binfmt-support qemu-user-static
