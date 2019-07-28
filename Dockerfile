@@ -2,7 +2,8 @@
 #	Base image
 #	@see https://hub.docker.com/_/alpine/	
 #
-FROM alpine:3.10
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
 
 #
 #	Arguments
@@ -12,7 +13,7 @@ ARG VCS_REF
 ARG VCS_SRC
 ARG VERSION
 ARG OVERLAY_VERSION="v1.22.1.0"
-ARG OVERLAY_ARCH="amd64"
+ARG OVERLAY_ARCH
 
 #
 #	Labels
@@ -58,6 +59,11 @@ RUN apk add --no-cache \
 #	Create user
 #
 RUN useradd -u 1000 -U -d /config -s /bin/false abc
+
+#
+#	Add QEMU for running arm images on amd64
+#
+COPY ./bin/qemu-arm-static /usr/bin/qemu-arm-static
 
 #
 #	Install s6-overlay
