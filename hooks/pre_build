@@ -5,4 +5,4 @@
 #		@see https://docs.docker.com/docker-hub/builds/advanced/#custom-build-phase-hooks
 #
 
-apt-get install qemu-user-static
+apt-get install -y qemu-user-static
