@@ -9,19 +9,8 @@
 echo "Building images"
 
 docker build \
-  --build-arg BASE_IMAGE="alpine:3.10" \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-  --build-arg OVERLAY_ARCH="amd64" \
   --build-arg VCS_REF=`git rev-parse --short HEAD` \
   --build-arg VCS_SRC="https://github.com/SloCompTech/docker-openvpn/commit/$SOURCE_COMMIT" \
   --build-arg VERSION="$SOURCE_BRANCH" \
   -t $IMAGE_NAME .
-
-docker build \
-  --build-arg BASE_IMAGE="arm32v6/alpine:3.10" \
-  --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-  --build-arg OVERLAY_ARCH="armhf" \
-  --build-arg VCS_REF=`git rev-parse --short HEAD` \
-  --build-arg VCS_SRC="https://github.com/SloCompTech/docker-openvpn/commit/$SOURCE_COMMIT" \
-  --build-arg VERSION="$SOURCE_BRANCH" \
-  -t $IMAGE_NAME-armhf .
