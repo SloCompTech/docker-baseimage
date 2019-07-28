@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#
+#		Pre build hook
+#		@see https://docs.docker.com/docker-hub/builds/advanced/#custom-build-phase-hooks
+#
+
+apt-get install qemu-user-static
