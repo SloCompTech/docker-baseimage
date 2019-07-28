@@ -3,13 +3,13 @@
 # Change user's GID if specifed
 if [ -n "$PGID" ]; then
   echo "GID fix"
-  groupmod -o -g "$PGID" abc
+  groupmod -o -g "$PGID" $CONTAINER_USER
 fi
 
 # Change user's PID if specified
 if [ -n "$PUID" ]; then
   echo "PID fix"
-  usermod -o -u "$PUID" abc
+  usermod -o -u "$PUID" $CONTAINER_USER
 fi
 
 echo "
@@ -17,12 +17,12 @@ echo "
 GID/UID
 -------------------------------------"
 echo "
-User uid:    $(id -u abc) (abc)
-User gid:    $(id -g abc) (abc)
+User uid:    $(id -u $CONTAINER_USER) ($CONTAINER_USER)
+User gid:    $(id -g $CONTAINER_USER) ($CONTAINER_USER)
 -------------------------------------
 "
 
 # Fix directory permissions
 if [ -n "$PUID" ] || [ -n "$PGID" ]; then
-  chown abc:abc /app /config /defaults /log
+  chown $CONTAINER_USER:$CONTAINER_USER /app /config /defaults /log
 fi
