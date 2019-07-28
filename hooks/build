@@ -13,4 +13,4 @@ docker build \
   --build-arg VCS_REF=`git rev-parse --short HEAD` \
   --build-arg VCS_SRC="https://github.com/SloCompTech/docker-baseimage/commit/$SOURCE_COMMIT" \
   --build-arg VERSION="$SOURCE_BRANCH" \
-  -t $IMAGE_NAME .
+  -t $IMAGE_NAME -f $DOCKERFILE_PATH .
