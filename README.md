@@ -1,6 +1,6 @@
 # Base image
 
-This is **base image** with [s6 overlay](https://github.com/just-containers/s6-overlay) already setup. Directory structure is also setup.
+This is **base image** with [s6 overlay (supervisor utils)](https://github.com/just-containers/s6-overlay) already setup. Directory structure is also setup.
 
 ## Project structure
 
@@ -22,6 +22,7 @@ Image has prepared directories:
 
 |**Parameter**|**Function**|
 |:-----------:|:-----------|
+|`-e CONTAINER_USER="abc"`|Set non-root user used in container (do not modify, already set in Dockerfile)|
 |`-e NO_DEFAULT_CONFIG=true`|Skip setting up default config|
 |`-e PUID=1000`|for UserID - see below for explanation|
 |`-e PGID=1000`|for GroupID - see below for explanation|
@@ -42,10 +43,12 @@ $ id username
     uid=1000(dockeruser) gid=1000(dockergroup) groups=1000(dockergroup)
 ```
 
+**Note:** Default user is in most cases named **abc**.  
+
 ## Building locally
 
 ``` bash
-# Build amd64 image
+# Build image
 sudo docker build -t IMGNAME .
 
 # Run image
@@ -54,7 +57,7 @@ sudo docker run --rm -it IMGNAME bash
 
 ## Issues
 
-Submit issue [here](https://github.com/SloCompTech/docker-baseimage-alpine/issues).  
+Submit issue [here](https://github.com/SloCompTech/docker-baseimage/issues).  
 
 ## Versioning
 
