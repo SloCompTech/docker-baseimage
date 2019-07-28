@@ -44,6 +44,11 @@ ENV PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
 	PATH=$PATH:/home/node/.npm-global/bin
 
 #
+#	Add QEMU for running arm images on amd64
+#
+COPY ./bin/qemu-arm-static /usr/bin/qemu-arm-static
+
+#
 #	Install packages
 #
 RUN apk add --no-cache \
@@ -59,11 +64,6 @@ RUN apk add --no-cache \
 #	Create user
 #
 RUN useradd -u 1000 -U -d /config -s /bin/false abc
-
-#
-#	Add QEMU for running arm images on amd64
-#
-COPY ./bin/qemu-arm-static /usr/bin/qemu-arm-static
 
 #
 #	Install s6-overlay
