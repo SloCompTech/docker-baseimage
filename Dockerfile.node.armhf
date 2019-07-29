@@ -37,7 +37,6 @@ LABEL maintainer="martin.dagarin@gmail.com" \
 	org.opencontainers.image.source=${VCS_SRC} \
 	org.opencontainers.image.title="nodejs base image" \
 	org.opencontainers.image.url="https://github.com/SloCompTech/docker-baseimage"\
-	org.opencontainers.image.vendor="pagernet" \
 	org.opencontainers.image.version=${VERSION}
 
 #
