@@ -23,6 +23,7 @@ Image has prepared directories:
 |**Parameter**|**Function**|
 |:-----------:|:-----------|
 |`-e CONTAINER_USER="abc"`|Set non-root user used in container (do not modify, already set in Dockerfile)|
+|`-e NO_CHOWN=true`|Disable fixing permissions for files (implement in derived images.)|
 |`-e NO_DEFAULT_CONFIG=true`|Skip setting up default config|
 |`-e PUID=1000`|for UserID - see below for explanation|
 |`-e PGID=1000`|for GroupID - see below for explanation|

@@ -28,4 +28,4 @@ fi
 # Copy default configration to configuration directory
 echo "Copying default configuration to configuration directory"
 cp -r -p -v /defaults/* /config
-chown $CONTAINER_USER:$CONTAINER_USER -R /config
+[ -n "$NO_CHOWN" ] || chown $CONTAINER_USER:$CONTAINER_USER -R /config
