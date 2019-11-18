@@ -75,7 +75,11 @@ COPY root/ /
 
 #
 # Move nginx webroot into /data
+# Move config into /config
 #
-RUN sed -i 's/\/usr\/share\/nginx\/html/\/data/g' /etc/nginx/conf.d/default.conf
+RUN sed -i 's/\/usr\/share\/nginx\/html/\/data/g' /etc/nginx/conf.d/default.conf &&
+	sed -i 's/\/etc\/nginx/\/config/g' /etc/nginx/nginx.conf &&
+	sed -i 's/\/var\/run/\/tmp/g' /etc/nginx/nginx.conf &&
+	cp /etc/nginx/* /defaults
 
 ENTRYPOINT ["/init"]
