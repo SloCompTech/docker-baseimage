@@ -39,6 +39,7 @@ LABEL maintainer="martin.dagarin@gmail.com" \
 #
 ENV CONTAINER_USER="abc" \
 		HOME="/root" \
+		IMAGE_STACK="alpine" \
 		PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
 		TERM="xterm"
 

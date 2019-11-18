@@ -36,6 +36,7 @@ Image has prepared directories:
 |**Variable name**|**Function**|
 |:---------------:|:----------:|
 |`CONTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
+|`IMAGE_STACK`|Top base image eg. alpine, nginx, node ...|
 
 ## User / Group Identifiers
 

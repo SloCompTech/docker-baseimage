@@ -47,6 +47,7 @@ LABEL maintainer="martin.dagarin@gmail.com" \
 #
 ENV CONTAINER_USER="node" \
 		HOME="/root" \
+		IMAGE_STACK="node" \
 		NPM_CONFIG_PREFIX=/home/node/.npm-global \
 		PATH=$PATH:/home/node/.npm-global/bin \
 		PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
