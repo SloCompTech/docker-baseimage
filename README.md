@@ -31,6 +31,12 @@ Image has prepared directories:
 |`-v /config`|All the config files reside here.|
 |`-v /log`|All the log files reside here.|
 
+## Environment variables
+
+|**Variable name**|**Function**|
+|:---------------:|:----------:|
+|`CIBTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
+
 ## User / Group Identifiers
 
 When using volumes (-v flags) permissions issues can arise between the host OS and the container, we avoid this issue by allowing you to specify the user PUID and group PGID.  
