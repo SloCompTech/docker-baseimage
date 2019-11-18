@@ -35,7 +35,7 @@ Image has prepared directories:
 
 |**Variable name**|**Function**|
 |:---------------:|:----------:|
-|`CIBTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
+|`CONTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
 
 ## User / Group Identifiers
 
