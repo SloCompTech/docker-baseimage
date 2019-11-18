@@ -15,6 +15,7 @@ Image has prepared directories:
 
 - `/app` for **application**
 - `/config` for **configuration**
+- `/data` for **application data**
 - `/defaults` for **default configuration** which is copied to `/config` if directory is empty
 - `/log` for **logging** (often you need separated directory for logs (because you don't want to write to eg. SD card ...))
 

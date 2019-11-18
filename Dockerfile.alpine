@@ -70,8 +70,8 @@ RUN curl -o /tmp/s6-overlay.tar.gz -L "https://github.com/just-containers/s6-ove
 #
 #	Create working structure
 #
-RUN mkdir -p /app /config /defaults /log && \
-	chown $CONTAINER_USER:$CONTAINER_USER /app /config /defaults /log
+RUN mkdir -p /app /config /data /defaults /log && \
+	chown $CONTAINER_USER:$CONTAINER_USER /app /config /data /defaults /log
 
 #
 #	Add local files to image
