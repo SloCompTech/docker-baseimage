@@ -24,5 +24,5 @@ User gid:    $(id -g $CONTAINER_USER) ($CONTAINER_USER)
 
 # Fix directory permissions
 if [ -n "$PUID" ] || [ -n "$PGID" ]; then
-  [ -n "$NO_CHOWN" ] || chown $CONTAINER_USER:$CONTAINER_USER /app /config /defaults /log
+  [ -n "$NO_CHOWN" ] || chown $CONTAINER_USER:$CONTAINER_USER /app /config /data /defaults /log
 fi
