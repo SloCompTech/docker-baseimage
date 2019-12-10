@@ -15,22 +15,6 @@ ARG OVERLAY_VERSION="v1.22.1.0"
 ARG OVERLAY_ARCH="amd64"
 
 #
-#	Labels
-#	@see https://github.com/opencontainers/image-spec/blob/master/annotations.md
-#	@see https://semver.org/
-#
-LABEL maintainer="martin.dagarin@gmail.com" \
-			org.opencontainers.image.authors="Martin Dagarin" \
-			org.opencontainers.image.created=${BUILD_DATE} \
-			org.opencontainers.image.description="Base image" \
-			org.opencontainers.image.documentation="https://github.com/SloCompTech/docker-baseimage" \
-			org.opencontainers.image.revision=${VCS_REF} \
-			org.opencontainers.image.source=${VCS_SRC} \
-			org.opencontainers.image.title="Base image" \
-			org.opencontainers.image.url="https://github.com/SloCompTech/docker-baseimage" \
-			org.opencontainers.image.version=${VERSION}
-
-#
 #	Environment variables
 #	@see https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
 #	@see https://unix.stackexchange.com/questions/43945/whats-the-difference-between-various-term-variables
