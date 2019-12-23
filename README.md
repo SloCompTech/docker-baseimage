@@ -24,6 +24,9 @@ Image has prepared directories:
 |**Parameter**|**Function**|
 |:-----------:|:-----------|
 |`-e CONTAINER_USER="abc"`|Set non-root user used in container (do not modify, already set in Dockerfile)|
+|`-e FAIL_MODE="hard"`|Fail action (blank: service restart, hard: restart container on service fail, count: Try restart service inside n-times before container restart)|
+|`-e FAIL_MODE_SERVICE="service1 service2"`|List of services to setup fail action|
+|`-e FAIL_MODE_SERVICE_IGNORE="service1 service2"`|List of services to ignore when setting up fail action|
 |`-e NO_CHOWN=true`|Disable fixing permissions for files (implement in derived images.)|
 |`-e NO_DEFAULT_CONFIG=true`|Skip setting up default config|
 |`-e PUID=1000`|for UserID - see below for explanation|
@@ -54,6 +57,20 @@ $ id username
 ```
 
 **Note:** Default user is in most cases named **abc**.  
+
+## Fail mode
+
+For each service in `/etc/services.d/*/` you can manually setup **fail action** using `finish` script. But you can do this automatically by setting `FAIL_MODE`, which will dynamically generate `finish` scripts for all your services specified in `/etc/services.d/*/` (custom `finish` scripts will be left untouched).
+
+Fail modes:
+
+- `hard`
+  - If service fails, container fails
+- `count`
+  - Service can fail `FAIL_MODE_COUNT` times before container fails
+
+**Note:** You can select for which services you want to automatically setup failmode with `FAIL_MODE_SERVICE="service1 service2"`.
+**Note.** You can exclude service from automatic setup with `FAIL_MODE_SERVICE_IGNORE="service1 service2"`.
 
 ## Building locally
 
