@@ -21,10 +21,11 @@ ARG OVERLAY_ARCH="amd64"
 #	@see https://unix.stackexchange.com/questions/34379/is-home-but-sometimes
 #
 ENV CONTAINER_USER="nginx" \
-		HOME="/root" \
-		IMAGE_STACK="nginx" \
-		PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-		TERM="xterm"
+	DOCKER_CONTAINER=true \
+	HOME="/root" \
+	IMAGE_STACK="nginx" \
+	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
+	TERM="xterm"
 
 #
 #	Add QEMU for running arm images on amd64

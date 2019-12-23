@@ -37,6 +37,7 @@ Image has prepared directories:
 |**Variable name**|**Function**|
 |:---------------:|:----------:|
 |`CONTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
+|`DOCKER_CONTAINER`|Always `true`|
 |`IMAGE_STACK`|Top base image eg. alpine, nginx, node ...|
 
 ## User / Group Identifiers
@@ -68,13 +69,8 @@ sudo docker run --rm -it IMGNAME bash
 
 Submit issue [here](https://github.com/SloCompTech/docker-baseimage/issues).  
 
-## Versioning
-
-This project uses [semver](https://semver.org/) schema.
-
 ## Documentation
 
-- [Upstream Alpine image](https://hub.docker.com/_/alpine/)  
 - [Base image from LSIO](https://github.com/linuxserver/docker-baseimage-alpine/blob/master/Dockerfile.aarch64)
 - [s6-overlay](https://github.com/just-containers/s6-overlay)
 

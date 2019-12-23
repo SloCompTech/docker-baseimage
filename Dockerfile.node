@@ -25,12 +25,13 @@ ARG OVERLAY_ARCH="amd64"
 #
 
 ENV CONTAINER_USER="node" \
-		HOME="/root" \
-		IMAGE_STACK="node" \
-		NPM_CONFIG_PREFIX=/home/node/.npm-global \
-		PATH=$PATH:/home/node/.npm-global/bin \
-		PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-		TERM="xterm"
+	DOCKER_CONTAINER=true \
+	HOME="/root" \
+	IMAGE_STACK="node" \
+	NPM_CONFIG_PREFIX=/home/node/.npm-global \
+	PATH=$PATH:/home/node/.npm-global/bin \
+	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
+	TERM="xterm"
 
 #
 #	Install packages

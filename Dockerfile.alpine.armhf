@@ -22,10 +22,11 @@ ARG OVERLAY_ARCH="armhf"
 #	@see https://unix.stackexchange.com/questions/34379/is-home-but-sometimes
 #
 ENV CONTAINER_USER="abc" \
-		HOME="/root" \
-		IMAGE_STACK="alpine" \
-		PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-		TERM="xterm"
+	DOCKER_CONTAINER=true \
+	HOME="/root" \
+	IMAGE_STACK="alpine" \
+	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
+	TERM="xterm"
 
 #
 #	Add QEMU for running arm images on amd64
