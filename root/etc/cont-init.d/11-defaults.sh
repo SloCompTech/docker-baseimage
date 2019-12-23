@@ -17,6 +17,7 @@ fi
 
 # Check if configuration directory exist
 if [ ! -d "/config" ]; then
+	echo "No configuration directory available"
 	exit 0
 fi
 
