@@ -30,6 +30,7 @@ ARG OVERLAY_ARCH="armhf"
 #	@see https://unix.stackexchange.com/questions/34379/is-home-but-sometimes
 #
 ENV CONTAINER_USER="node" \
+	CONTAINER_VARS_FILE="/usr/local/etc/bi/vars" \
 	DOCKER_CONTAINER=true \
 	HOME="/root" \
 	IMAGE_STACK="node" \
@@ -52,6 +53,7 @@ RUN apk add --no-cache \
 	coreutils \
 	curl \
 	shadow \
+	sudo \
 	tar \
 	tzdata
 

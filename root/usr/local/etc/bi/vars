@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+#
+# Container environment variables
+# Content may be dynamically added
+#

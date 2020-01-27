@@ -1,4 +1,6 @@
-#!/usr/bin/with-contenv bash
+#!/usr/bin/with-contenv  bash
+
+source $CONTAINER_VARS_FILE
 
 #
 # Automatic failmode script setup

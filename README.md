@@ -6,6 +6,13 @@ This is **base image** with [s6 overlay (supervisor utils)](https://github.com/j
 
 ```
 root # Files copied to image started from root
+  etc
+    cont-finish.d # See s6-overlay
+    cont-init.d # See s6-overlay
+    fix-attrs.d # See s6-overlay
+    service.d # See s6-overlay
+  usr/local/etc/bi # Base image configuration files
+    vars # Base image container variables
 Dockerfile # Image configuration
 ```
 
@@ -40,8 +47,10 @@ Image has prepared directories:
 |**Variable name**|**Function**|
 |:---------------:|:----------:|
 |`CONTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
+|`CONTAINER_VARS_FILE`|File where base image container variables are stored, load it with `source $CONTAINER_VARS_FILE` at the **top** of your scripts (**\*** - variables that depend on this)|
 |`DOCKER_CONTAINER`|Always `true`|
 |`IMAGE_STACK`|Top base image eg. alpine, nginx, node ...|
+|`RUNCMD`|Put it before every bash command to make sure command is run as container user (generates `sudo -u PID -g GID` command) **\***|
 
 ## User / Group Identifiers
 

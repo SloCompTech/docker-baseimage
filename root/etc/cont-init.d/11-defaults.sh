@@ -1,4 +1,6 @@
-#!/usr/bin/with-contenv bash
+#!/usr/bin/with-contenv  bash
+
+source $CONTAINER_VARS_FILE
 
 #
 #	Setup defaults
@@ -28,5 +30,4 @@ fi
 
 # Copy default configration to configuration directory
 echo "Copying default configuration to configuration directory"
-cp -r -p -v /defaults/* /config
-[ -n "$NO_CHOWN" ] || chown $CONTAINER_USER:$CONTAINER_USER -R /config
+$RUNCMD cp -r -p -v /defaults/* /config

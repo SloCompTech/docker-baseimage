@@ -21,6 +21,7 @@ ARG OVERLAY_ARCH="amd64"
 #	@see https://unix.stackexchange.com/questions/34379/is-home-but-sometimes
 #
 ENV CONTAINER_USER="abc" \
+	CONTAINER_VARS_FILE="/usr/local/etc/bi/vars" \
 	DOCKER_CONTAINER=true \
 	HOME="/root" \
 	IMAGE_STACK="alpine" \
@@ -36,6 +37,7 @@ RUN apk add --no-cache \
 	coreutils \
 	curl \
 	shadow \
+	sudo \
 	tar \
 	tzdata
 

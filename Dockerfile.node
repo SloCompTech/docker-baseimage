@@ -25,6 +25,7 @@ ARG OVERLAY_ARCH="amd64"
 #
 
 ENV CONTAINER_USER="node" \
+	CONTAINER_VARS_FILE="/usr/local/etc/bi/vars" \
 	DOCKER_CONTAINER=true \
 	HOME="/root" \
 	IMAGE_STACK="node" \
@@ -42,6 +43,7 @@ RUN apk add --no-cache \
 	coreutils \
 	curl \
 	shadow \
+	sudo \
 	tar \
 	tzdata
 
