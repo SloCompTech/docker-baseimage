@@ -26,7 +26,7 @@ User gid:    $(id -g $CONTAINER_USER) ($CONTAINER_USER)
 
 # Set environment variable for running commands as CONTAINER_USER
 echo "# Run as container user" >> $CONTAINER_VARS_FILE
-echo "export RUNCMD=\"sudo -u ${CONTAINER_USER} -g ${CONTAINER_USER}\"" >> $CONTAINER_VARS_FILE
+echo "export RUNCMD=\"sudo -u ${CONTAINER_USER} -g ${CONTAINER_USER} -E\"" >> $CONTAINER_VARS_FILE
 
 if [ -n "$PUID" ] || [ -n "$PGID" ]; then
   # Fix directory permissions
