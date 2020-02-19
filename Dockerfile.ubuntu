@@ -1,0 +1,69 @@
+#
+#	Base image
+#	@see https://hub.docker.com/_/ubuntu/	
+#
+FROM ubuntu:bionic
+
+#
+#	Arguments
+#
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VCS_SRC
+ARG VERSION
+ARG OVERLAY_VERSION="v1.22.1.0"
+ARG OVERLAY_ARCH="amd64"
+
+#
+#	Environment variables
+#	@see https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+#	@see https://unix.stackexchange.com/questions/43945/whats-the-difference-between-various-term-variables
+#	@see https://unix.stackexchange.com/questions/34379/is-home-but-sometimes
+#
+ENV CONTAINER_USER="abc" \
+	CONTAINER_VARS_FILE="/usr/local/etc/bi/vars" \
+	DOCKER_CONTAINER=true \
+	HOME="/root" \
+	IMAGE_STACK="alpine" \
+	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
+	TERM="xterm"
+
+#
+#	Install packages
+#
+RUN apt update && \
+		apt install -y \
+			bash \
+			ca-certificates \
+			coreutils \
+			curl \
+			sudo \
+			tar \
+			tzdata && \
+		apt clean
+
+#
+#	Create user
+#
+RUN useradd -u 1000 -U -d /config -s /bin/false $CONTAINER_USER
+
+#
+#	Install s6-overlay
+#	@see https://github.com/just-containers/s6-overlay
+#
+RUN curl -o /tmp/s6-overlay.tar.gz -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" && \
+	tar xfz /tmp/s6-overlay.tar.gz -C / && \
+	rm /tmp/s6-overlay.tar.gz
+
+#
+#	Create working structure
+#
+RUN mkdir -p /app /config /data /defaults /log && \
+	chown $CONTAINER_USER:$CONTAINER_USER /app /config /data /defaults /log
+
+#
+#	Add local files to image
+#
+COPY root/ /
+
+ENTRYPOINT ["/init"]
