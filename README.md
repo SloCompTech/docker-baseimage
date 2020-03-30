@@ -34,7 +34,7 @@ Image has prepared directories:
 |`-e FAIL_MODE="hard"`|Fail action (blank: service restart, hard: restart container on service fail, count: Try restart service inside n-times before container restart)|
 |`-e FAIL_MODE_SERVICE="service1 service2"`|List of services to setup fail action|
 |`-e FAIL_MODE_SERVICE_IGNORE="service1 service2"`|List of services to ignore when setting up fail action|
-|`-e NO_CHOWN=true`|Disable fixing permissions for files (implement in derived images.)|
+|`-e RUN_ROOT=true`|Disable `$RUNCMD`|
 |`-e NO_DEFAULT_CONFIG=true`|Skip setting up default config|
 |`-e PUID=1000`|for UserID - see below for explanation|
 |`-e PGID=1000`|for GroupID - see below for explanation|
@@ -50,7 +50,7 @@ Image has prepared directories:
 |`CONTAINER_VARS_FILE`|File where base image container variables are stored, load it with `source $CONTAINER_VARS_FILE` at the **top** of your scripts (**\*** - variables that depend on this)|
 |`DOCKER_CONTAINER`|Always `true`|
 |`IMAGE_STACK`|Top base image eg. alpine, nginx, node ...|
-|`RUNCMD`|Put it before every bash command to make sure command is run as container user (generates `sudo -u PID -g GID` command) **\***|
+|`RUNCMD`|Put it before every bash command to make sure command is run as container user (generates `sudo -u PID -g GID -E` command) **\***|
 
 ## User / Group Identifiers
 
