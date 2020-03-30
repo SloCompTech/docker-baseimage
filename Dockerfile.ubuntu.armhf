@@ -43,6 +43,7 @@ RUN apt update && \
 			ca-certificates \
 			coreutils \
 			curl \
+			nano \
 			sudo \
 			tar \
 			tzdata && \

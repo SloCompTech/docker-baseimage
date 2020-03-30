@@ -41,6 +41,7 @@ RUN apk add --no-cache \
 	ca-certificates \
 	coreutils \
 	curl \
+	nano \
 	shadow \
 	sudo \
 	tar \
