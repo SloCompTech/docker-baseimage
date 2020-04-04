@@ -26,7 +26,8 @@ ENV CONTAINER_USER="nginx" \
 	HOME="/root" \
 	IMAGE_STACK="nginx" \
 	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-	TERM="xterm"
+	TERM="xterm" \
+	VISUAL="nano"
 
 #
 #	Install packages

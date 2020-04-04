@@ -35,6 +35,7 @@ Image has prepared directories:
 |`-e FAIL_MODE_SERVICE="service1 service2"`|List of services to setup fail action|
 |`-e FAIL_MODE_SERVICE_IGNORE="service1 service2"`|List of services to ignore when setting up fail action|
 |`-e RUN_ROOT=true`|Disable `$RUNCMD`|
+|`-e NO_CHOWN=true`|Don't re-chown prepared directories|
 |`-e NO_DEFAULT_CONFIG=true`|Skip setting up default config|
 |`-e PUID=1000`|for UserID - see below for explanation|
 |`-e PGID=1000`|for GroupID - see below for explanation|

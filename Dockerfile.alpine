@@ -26,7 +26,8 @@ ENV CONTAINER_USER="abc" \
 	HOME="/root" \
 	IMAGE_STACK="alpine" \
 	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-	TERM="xterm"
+	TERM="xterm" \
+	VISUAL="nano"
 
 #
 #	Install packages

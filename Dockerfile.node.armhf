@@ -37,7 +37,8 @@ ENV CONTAINER_USER="node" \
 	NPM_CONFIG_PREFIX=/home/node/.npm-global \
 	PATH=$PATH:/home/node/.npm-global/bin \
 	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-	TERM="xterm"
+	TERM="xterm" \
+	VISUAL="nano"
 
 #
 #	Add QEMU for running images on amd64
