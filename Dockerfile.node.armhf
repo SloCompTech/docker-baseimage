@@ -28,15 +28,15 @@ ARG OVERLAY_ARCH="armhf"
 #	@see https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
 #	@see https://unix.stackexchange.com/questions/43945/whats-the-difference-between-various-term-variables
 #	@see https://unix.stackexchange.com/questions/34379/is-home-but-sometimes
+# @see https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #
 ENV CONTAINER_USER="node" \
 	CONTAINER_VARS_FILE="/usr/local/etc/bi/vars" \
 	DOCKER_CONTAINER=true \
 	HOME="/root" \
-	IMAGE_STACK="node" \
 	NPM_CONFIG_PREFIX=/home/node/.npm-global \
 	PATH=$PATH:/home/node/.npm-global/bin \
-	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
+	PS1="\[\e]0;\u@\h: \w\a\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ " \
 	TERM="xterm" \
 	VISUAL="nano"
 

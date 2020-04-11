@@ -50,7 +50,6 @@ Image has prepared directories:
 |`CONTAINER_USER`|User used to run in less priviledged mode (owner of prepared directories).|
 |`CONTAINER_VARS_FILE`|File where base image container variables are stored, load it with `source $CONTAINER_VARS_FILE` at the **top** of your scripts (**\*** - variables that depend on this)|
 |`DOCKER_CONTAINER`|Always `true`|
-|`IMAGE_STACK`|Top base image eg. alpine, nginx, node ...|
 |`RUNCMD`|Put it before every bash command to make sure command is run as container user (generates `sudo -u PID -g GID -E` command) **\***|
 
 ## User / Group Identifiers
