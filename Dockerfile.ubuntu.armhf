@@ -3,7 +3,8 @@
 #	@see https://hub.docker.com/_/ubuntu/	
 # @see https://hub.docker.com/r/arm32v7/ubuntu/
 #
-FROM arm32v7/ubuntu:bionic
+ARG FROM_IMAGE
+FROM ${FROM_IMAGE}
 
 #
 #	Arguments

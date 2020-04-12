@@ -11,7 +11,8 @@
 #	@see https://www.balena.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/
 #	@see https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/
 #
-FROM arm32v6/node:10-alpine
+ARG FROM_IMAGE
+FROM ${FROM_IMAGE}
 
 #
 #	Arguments

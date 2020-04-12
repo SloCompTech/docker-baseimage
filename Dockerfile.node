@@ -5,7 +5,8 @@
 #	@see https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md
 #	@see https://hub.docker.com/_/alpine/	
 #
-FROM node:10-alpine
+ARG FROM_IMAGE
+FROM ${FROM_IMAGE}
 
 #
 #	Arguments
