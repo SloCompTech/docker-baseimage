@@ -3,15 +3,71 @@
 #
 #	DockerHub build hook (overrides default push command)
 #	@see https://docs.docker.com/docker-hub/builds/advanced/
+# @see https://stackoverflow.com/questions/45277186/is-it-possible-to-add-environment-variables-in-automated-builds-in-docker-hub
 #
 
-BUILD_ARCH=$(echo "${DOCKERFILE_PATH}" | cut -d '.' -f 3 -s)
-UPSTREAM_IMAGE_VERSION=$(cat ${DOCKERFILE_PATH} | grep -P 'FROM' | cut -d ' ' -f 2 | cut -d ':' -f 2 -s | cut -d '-' -f 1)
-
-IMAGE_TAG=${UPSTREAM_IMAGE_VERSION:="latest"}
-if [ -n "$BUILD_ARCH" ] && [ "$BUILD_ARCH" != "amd64" ]; then
-  IMAGE_TAG="$IMAGE_TAG-$BUILD_ARCH"
+# Check if Dockerfile exists
+if [ ! -f "$DOCKERFILE_PATH" ]; then
+  echo "Dockerfile $DOCKERFILE_PATH does not exist"
+  exit 1
 fi
 
-docker tag $IMAGE_NAME $DOCKER_REPO:$IMAGE_TAG
-docker push $DOCKER_REPO:$IMAGE_TAG
+#
+# Get arch from docker file name (architecture is 3th Dockerfile.<image>.<arch>)
+#
+arch="$(echo "${DOCKERFILE_PATH}" | cut -s -d '.' -f 3)"
+arch=${arch:-'amd64'}
+
+if [ -z "$DOCKER_TAG" ]; then
+  DOCKER_TAG="latest"
+fi
+
+#
+# Check if image insertion possible
+# - In dockerfile at the top must be
+#   - ARG FROM_IMAGE
+#   - FROM ${FROM_IMAGE} Note: Here exactly one space !!
+#
+from=$(grep -E '^\s*FROM\s*\w*' "$DOCKERFILE_PATH" | cut -d' ' -f 2)
+if [ "$from" != '${FROM_IMAGE}' ]; then
+  # Normal build: Can't change base image
+  
+  # Add tag suffix for arch
+  if [ -n "$arch" ] && [ "$arch" != "amd64" ] && ! [[ "$DOCKER_TAG" =~ -$arch\s*$ ]]; then
+    suffix="-$arch"
+  fi
+  echo "Pushing: $DOCKER_REPO:$DOCKER_TAG$suffix"
+
+  docker push $DOCKER_REPO:$DOCKER_TAG$suffix
+else
+  #
+  # Get value of image variable
+  # amd64: IMAGE=<repo>/<image>
+  # other: IMAGE_<arch uppercase>=<repo>/<image>
+  #
+  if [ -z "$arch" ] || [ "$arch" == "amd64" ]; then
+    imagevar="IMAGE"
+  else
+    imagevar="IMAGE_$(echo $arch | tr '[:lower:]' '[:upper:]')"
+  fi
+  IMAGE="${!imagevar}"
+  echo "Image: $IMAGE"
+  if [ -z "$IMAGE" ]; then
+    echo "Invalid image for $arch"
+    exit 2
+  fi
+
+  # Remove arch suffix from image tag if it exists
+  if [[ "$DOCKER_TAG" =~ -$arch\s*$ ]]; then
+    DOCKER_TAG="${DOCKER_TAG%-*}"
+  fi
+
+  # Add tag suffix for arch
+  if [ -n "$arch" ] && [ "$arch" != "amd64" ]; then
+    suffix="-$arch"
+  fi
+  
+  echo "Pushing: $DOCKER_REPO:$DOCKER_TAG$suffix"
+  
+  docker push $DOCKER_REPO:$DOCKER_TAG$suffix
+fi

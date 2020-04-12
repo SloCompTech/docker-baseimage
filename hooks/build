@@ -1,16 +1,87 @@
 #!/bin/bash
 
 #
-#   DockerHub build hook (overrides default build command)
-#   @see https://docs.docker.com/docker-hub/builds/advanced/
-#   @see https://microbadger.com/labels
+# DockerHub build hook (overrides default build command)
+# @see https://docs.docker.com/docker-hub/builds/advanced/
+# @see https://microbadger.com/labels
+# @see https://stackoverflow.com/questions/45277186/is-it-possible-to-add-environment-variables-in-automated-builds-in-docker-hub
 #
 
-echo "Building images"
+echo "Building image"
 
-docker build \
+# Check if Dockerfile exists
+if [ ! -f "$DOCKERFILE_PATH" ]; then
+  echo "Dockerfile $DOCKERFILE_PATH does not exist"
+  exit 1
+fi
+
+#
+# Get arch from docker file name (architecture is 3th Dockerfile.<image>.<arch>)
+#
+arch="$(echo "${DOCKERFILE_PATH}" | cut -s -d '.' -f 3)"
+arch=${arch:-'amd64'}
+
+if [ -z "$DOCKER_TAG" ]; then
+  DOCKER_TAG="latest"
+fi
+
+#
+# Check if image insertion possible
+# - In dockerfile at the top must be
+#   - ARG FROM_IMAGE
+#   - FROM ${FROM_IMAGE} Note: Here exactly one space !!
+#
+from=$(grep -E '^\s*FROM\s*\w*' "$DOCKERFILE_PATH" | cut -d' ' -f 2)
+if [ "$from" != '${FROM_IMAGE}' ]; then
+  # Normal build: Can't change base image
+  
+  # Add tag suffix for arch
+  if [ -n "$arch" ] && [ "$arch" != "amd64" ] && ! [[ "$DOCKER_TAG" =~ -$arch\s*$ ]]; then
+    suffix="-$arch"
+  fi
+  echo "Building: $DOCKER_REPO:$DOCKER_TAG$suffix"
+
+  docker build \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
   --build-arg VCS_REF=`git rev-parse --short HEAD` \
   --build-arg VCS_SRC="https://github.com/SloCompTech/docker-baseimage/commit/$SOURCE_COMMIT" \
   --build-arg VERSION="$SOURCE_BRANCH" \
-  -t $IMAGE_NAME -f $DOCKERFILE_PATH .
+  -t $DOCKER_REPO:$DOCKER_TAG$suffix -f $DOCKERFILE_PATH .
+else
+  #
+  # Get value of image variable
+  # amd64: IMAGE=<repo>/<image>
+  # other: IMAGE_<arch uppercase>=<repo>/<image>
+  #
+  if [ -z "$arch" ] || [ "$arch" == "amd64" ]; then
+    imagevar="IMAGE"
+  else
+    imagevar="IMAGE_$(echo $arch | tr '[:lower:]' '[:upper:]')"
+  fi
+  IMAGE="${!imagevar}"
+  echo "Image: $IMAGE"
+  if [ -z "$IMAGE" ]; then
+    echo "Invalid image for $arch"
+    exit 2
+  fi
+
+  # Remove arch suffix from image tag if it exists
+  if [[ "$DOCKER_TAG" =~ -$arch\s*$ ]]; then
+    DOCKER_TAG="${DOCKER_TAG%-*}"
+  fi
+
+  # Add tag suffix for arch
+  if [ -n "$arch" ] && [ "$arch" != "amd64" ]; then
+    suffix="-$arch"
+  fi
+  
+  echo "Building: $IMAGE:$DOCKER_TAG --> $DOCKER_REPO:$DOCKER_TAG$suffix"
+  
+  docker build \
+    --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+    --build-arg FROM_IMAGE="$IMAGE:$TAG" \
+    --build-arg VCS_REF=`git rev-parse --short HEAD` \
+    --build-arg VCS_SRC="https://github.com/SloCompTech/docker-baseimage/commit/$SOURCE_COMMIT" \
+    --build-arg VERSION="$SOURCE_BRANCH" \
+    -t $DOCKER_REPO:$TAG$suffix -f $DOCKERFILE_PATH .
+fi
