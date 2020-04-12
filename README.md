@@ -91,6 +91,16 @@ sudo docker build -t IMGNAME .
 sudo docker run --rm -it IMGNAME bash
 ```
 
+## Dockerhub build variables
+
+Here are additional variables for Docker Hub build.
+
+|**Parameter**|**Function**|
+|:-----------:|:-----------|
+|`IMAGE,IMAGE_<arch>`|Base image name|
+|`IMAGE_<ref>_ORIG=true`|Preserve original docker tag through build.|
+|`IMAGE_<ref>_SRCTAG=<source tag>`|Image source tag (if it is different from `$DOCKER_TAG`.|
+
 ## Issues
 
 Submit issue [here](https://github.com/SloCompTech/docker-baseimage/issues).  

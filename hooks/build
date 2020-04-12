@@ -40,7 +40,7 @@ if [ "$from" != '${FROM_IMAGE}' ]; then
     suffix="-$arch"
   fi
   echo "Building: $DOCKER_REPO:$DOCKER_TAG$suffix"
-
+  
   docker build \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
   --build-arg VCS_REF=`git rev-parse --short HEAD` \
@@ -59,29 +59,48 @@ else
     imagevar="IMAGE_$(echo $arch | tr '[:lower:]' '[:upper:]')"
   fi
   IMAGE="${!imagevar}"
-  echo "Image: $IMAGE"
   if [ -z "$IMAGE" ]; then
     echo "Invalid image for $arch"
     exit 2
   fi
 
+  #
+  # Image reference to set settings
+  # is equal to IMAGE_<tag>_<property> docker tags except . and - replaced by _
+  #
+  IMAGEREF="$(echo $DOCKER_TAG | tr '.-' '_')"
+
+  #
+  # Leave image tag untouched
+  # IMAGE_<ref>_ORIG=true
+  #
+  imageorigtag="IMAGE_${IMAGEREF}_ORIG"
+  IMAGEORIG="${!imageorigtag}"
+
   # Remove arch suffix from image tag if it exists
-  if [[ "$DOCKER_TAG" =~ -$arch\s*$ ]]; then
+  if [ -z "$IMAGEORIG" ] && [[ "$DOCKER_TAG" =~ -$arch\s*$ ]]; then
     DOCKER_TAG="${DOCKER_TAG%-*}"
   fi
 
   # Add tag suffix for arch
-  if [ -n "$arch" ] && [ "$arch" != "amd64" ]; then
+  if [ -z "$IMAGEORIG" ] && [ -n "$arch" ] && [ "$arch" != "amd64" ]; then
     suffix="-$arch"
   fi
+
+  #
+  # Set different tag for source image
+  # IMAGE_<ref>_SRCTAG=<tag>
+  #
+  imagesourcetagvar="IMAGE_${IMAGEREF}_SRCTAG"
+  SOURCE_TAG=${!imagesourcetagvar:-$DOCKER_TAG}
   
-  echo "Building: $IMAGE:$DOCKER_TAG --> $DOCKER_REPO:$DOCKER_TAG$suffix"
+  echo "Building: $IMAGE:$SOURCE_TAG --> $DOCKER_REPO:$DOCKER_TAG$suffix"
   
   docker build \
     --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-    --build-arg FROM_IMAGE="$IMAGE:$TAG" \
+    --build-arg FROM_IMAGE="$IMAGE:$SOURCE_TAG" \
     --build-arg VCS_REF=`git rev-parse --short HEAD` \
     --build-arg VCS_SRC="https://github.com/SloCompTech/docker-baseimage/commit/$SOURCE_COMMIT" \
     --build-arg VERSION="$SOURCE_BRANCH" \
-    -t $DOCKER_REPO:$TAG$suffix -f $DOCKERFILE_PATH .
+    -t $DOCKER_REPO:$DOCKER_TAG$suffix -f $DOCKERFILE_PATH .
 fi
